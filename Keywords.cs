@@ -13,12 +13,12 @@ namespace Output_Intput
         {
             List<string> Files = new List<string>();
 
-            foreach (string findedFile in Directory.EnumerateFiles(path, keywords, SearchOption.AllDirectories))
+            foreach (string FindedFile in Directory.EnumerateFiles(path, keywords, SearchOption.AllDirectories))
             {
                 FileInfo fileInfo;
                 try
                 {
-                    fileInfo = new FileInfo(findedFile);
+                    fileInfo = new FileInfo(FindedFile);
                     Files.Add(fileInfo.Name);
                 }
                 catch

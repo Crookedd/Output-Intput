@@ -9,60 +9,36 @@ namespace Output_Intput
 {
     class Editor
     {
-        public void Edit(string path, string fileName)
+        public void Edit(string Path, string FileName)
         {
-            Console.WriteLine("Что вы хотите сделать?\n\n1.Бинарную Сериализуцию.\n2.Бинарную Десериализацию(если конечно была совершнена сериализация)\n" +
-                "3.XML Сериализацию.\n4.XMLДесериализацию(если конечно была совершнена сериализация)\n5.Поиск файла по ключевому слову.");
-            int Choice = 0;
-            while (Choice < 1 || Choice > 5)
+            FileStream File = new FileStream(Path, FileMode.OpenOrCreate);
+            FileReader(File, FileName);
+            EditorFiles1.EditFiles(Path);
+            Caretaker.SaveState(EditorFiles1);
+            Console.WriteLine("Хотите востановить файл? 1 - da");
+            string Number = Console.ReadLine();
+            if (Number == "1")
             {
-                if (int.TryParse(Convert.ToString(Console.ReadLine()), out Choice) == false)
+                try
                 {
-                    Console.WriteLine("Данные введены неверно. Попробуйте ещё раз");
+                    File.Close();
+                    RestoreData(Path, FileName);
+                }
+                catch (KeyNotFoundException)
+                {
+                    Console.WriteLine("Не было изменений");
+                    Console.ReadKey();
                 }
             }
-
-            switch (Choice)
-            {
-                case 1:
-                    FileStream fs = new FileStream("C:\\Serialize.bin", FileMode.OpenOrCreate, FileAccess.Write);
-                    FileTxT txT = new FileTxT();
-                    txT.BinarySerialization(fs);
-                    break;
-                case 2:
-                    fs = new FileStream("C:\\Serialize.bin", FileMode.OpenOrCreate, FileAccess.Read);
-                    FileTxT txT1 = new FileTxT();
-                    txT1.BinaryDeserialization(fs);
-                    break;
-                case 3:
-                    fs = new FileStream("C:\\XMLSerialize.xml", FileMode.OpenOrCreate, FileAccess.Write);
-                    FileTxT txT2 = new FileTxT();
-                    txT2.XmlSerialization(fs);
-                    break;
-                case 4:
-                    fs = new FileStream("C:\\XMLSerialize.xml", FileMode.OpenOrCreate, FileAccess.Read);
-                    FileTxT txT3 = new FileTxT();
-                    txT3.XmlDeserialization(fs);
-                    break;
-                case 5:
-                    Console.WriteLine("Введите ключевое слово с * (Пример: Файл* )");
-                    string words = Console.ReadLine();
-                    Keywords keywords = new Keywords();
-                    keywords.KeyWodrsFiles(path, words);
-                    break;
-                default:
-                    Console.WriteLine();
-                    break;
-            }
-
+            File.Close();
         }
-
-        static FileTxT fileTxT = new FileTxT();
-        private static void FileReader(string path, string FileName)
+        static FileTxT FileTxT = new FileTxT();
+        static EditorFiles EditorFiles1 = new EditorFiles();
+        static Caretaker Caretaker = new Caretaker();
+        private static void FileReader(FileStream File, string FileName)
         {
-            FileStream file = new FileStream(path + FileName, FileMode.OpenOrCreate);
             string str = "";
-            var reader = new StreamReader(file);
+            var reader = new StreamReader(File);
 
             while (!reader.EndOfStream)
             {
@@ -70,14 +46,26 @@ namespace Output_Intput
             }
             try
             {
-                fileTxT.Text.Add(FileName, str);
-                fileTxT.FileName.Add(FileName);
+                FileTxT.Text.Add(FileName, str);
+                FileTxT.FileName.Add(FileName);
+                EditorFiles1.Text.Add(FileName, str);
+                EditorFiles1.FileName.Add(FileName);
             }
             catch (Exception)
             {
-                fileTxT.Text[FileName] = str;
+                FileTxT.Text[FileName] = str;
+                EditorFiles1.Text[FileName] = str;
             }
             reader.Close();
         }
+        private static void RestoreData(string Path, string FileName)
+        {
+            Caretaker.RestoreState(EditorFiles1);
+            using (StreamWriter Writer = new StreamWriter(Path, false))
+            {
+                Writer.Write(EditorFiles1.Text[FileName]);
+            }
+        }
+
     }
 }

@@ -19,10 +19,10 @@ namespace Output_Intput
             FileName = new List<string>();
             Text = new Dictionary<string, string>();
         }
-        public FileTxT(string FileName, string Text)
+        public FileTxT(string fileName, string text)
         {
-            this.FileName.Add(FileName);
-            this.Text.Add(FileName, Text);
+            this.FileName.Add(fileName);
+            this.Text.Add(fileName, text);
         }
 
         public void BinarySerialization(FileStream fs)
