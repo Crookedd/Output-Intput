@@ -9,17 +9,17 @@ namespace Output_Intput
 {
     class Keywords
     {
-        public void KeyWodrsFiles(string path, string keywords)
+        public void KeyWodrsFiles(string Path, string Keywords)
         {
             List<string> Files = new List<string>();
 
-            foreach (string FindedFile in Directory.EnumerateFiles(path, keywords, SearchOption.AllDirectories))
+            foreach (string FindedFile in Directory.EnumerateFiles(Path, Keywords, SearchOption.AllDirectories))
             {
-                FileInfo fileInfo;
+                FileInfo FileInfo;
                 try
                 {
-                    fileInfo = new FileInfo(FindedFile);
-                    Files.Add(fileInfo.Name);
+                    FileInfo = new FileInfo(FindedFile);
+                    Files.Add(FileInfo.Name);
                 }
                 catch
                 {

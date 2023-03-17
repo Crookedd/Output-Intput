@@ -32,6 +32,8 @@ namespace Output_Intput
                     Keywords.KeyWodrsFiles(ElementPath + Path, Words);
                     break;
                 case "3":
+                    Indexsing Indexsing = new Indexsing();
+                    Indexsing.Indexator(ElementPath + Path);
                     break;
                 default:
                     Console.WriteLine();

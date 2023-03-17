@@ -41,19 +41,21 @@ namespace Output_Intput
         {
             Text = new Dictionary<string, string>();
         }
-        public EditorFiles(string fileName, string text)
+        public EditorFiles(string FileName, string Text)
         {
-            this.Text.Add(fileName, text);
+            this.Text.Add(FileName, Text);
         }
         public void EditFiles(string FileName)
         {
+            Console.WriteLine("Введите ключевое слово, по которому будет удаляться строка.");
+            string KeyWord = Console.ReadLine();
             string[] str = File.ReadAllLines(FileName);
             using (StreamWriter sw = new StreamWriter(FileName))
             {
                 sw.AutoFlush = true;
                 foreach (string s in str)
                 {
-                    if (!s.Contains("file"))
+                    if (!s.Contains(KeyWord))
                     {
                         sw.WriteLine(s);
                     }
@@ -68,9 +70,9 @@ namespace Output_Intput
         {
             if (Memento is Memento)
             {
-                var TempMemento = Memento as Memento;
-                Text = TempMemento.Text;
-                FileName = TempMemento.FileName;
+                var Temp = Memento as Memento;
+                Text = Temp.Text;
+                FileName = Temp.FileName;
             }
         }
     }
