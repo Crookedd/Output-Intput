@@ -29,7 +29,7 @@ namespace Output_Intput
 
             if (Files.Count > 0)
             {
-                Console.WriteLine("Все найденные файлы:\n");
+                Console.WriteLine("\n~~~Все найденные файлы~~~\n");
                 for (int Index = 0; Index < Files.Count; Index++)
                 {
                     Console.WriteLine($"{Files[Index]}\n");
