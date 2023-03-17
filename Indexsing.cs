@@ -14,22 +14,21 @@ namespace Output_Intput
         {
             Console.WriteLine("Введите расширение для индексации. ");
             List.Add(Console.ReadLine());
-            Console.WriteLine("\nВведите имя файла для сохранения результата.");
+            Console.WriteLine("\nВведите имя файла для сохранения результата с расширением.");
             string FileName = Path + "\\" + Console.ReadLine();
             FileStream FileStream = new FileStream(FileName, FileMode.OpenOrCreate);
             using (StreamWriter Writer = new StreamWriter(FileStream))
                 foreach (string str in List)
                 {
-                    var ExtensionFiles = Directory.EnumerateFiles(Path, "*." + str, SearchOption.AllDirectories);
+                    var Extension = Directory.EnumerateFiles(Path, "*." + str, SearchOption.AllDirectories);
                     Writer.WriteLine(str + ":\n");
-                    foreach (string File in ExtensionFiles)
+                    foreach (string File in Extension)
                     {
                         string FName = File.Substring(Path.Length);
                         Writer.WriteLine(FName);
                     }
                 }
-            FileStream.Close();
-            
+            FileStream.Close(); 
         }
     }
 }
